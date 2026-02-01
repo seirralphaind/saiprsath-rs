@@ -43,7 +43,7 @@ const Navigation = () => {
             onClick={() => scrollToSection("#hero")}
             className="text-xl font-bold text-primary hover:text-primary/80 transition-colors"
           >
-            Portfolio
+            SAIPRASATH R S
           </button>
 
           {/* Desktop Navigation */}
