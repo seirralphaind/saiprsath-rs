@@ -27,7 +27,7 @@ const HeroSection = () => {
           <div className="relative">
             <div className="absolute inset-0 bg-gradient-to-br from-primary to-accent rounded-full blur-2xl opacity-30" />
             <Avatar className="w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 border-4 border-primary/50 relative">
-              <AvatarImage src="/placeholder.svg" alt="Profile photo" />
+              <AvatarImage src="/sai.jpeg" alt="Profile photo" />
               <AvatarFallback className="text-4xl bg-secondary text-primary">DE</AvatarFallback>
             </Avatar>
           </div>

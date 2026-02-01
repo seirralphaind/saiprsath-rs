@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Download, FileText } from "lucide-react";
@@ -36,7 +37,7 @@ const ResumeSection = () => {
                 </p>
               </div>
               <Button size="lg" className="w-full" asChild>
-                <a href="/resume.pdf" download>
+                <a href="/saiprasath_resume.pdf" download>
                   <Download className="mr-2 h-4 w-4" />
                   Download PDF
                 </a>
