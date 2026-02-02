@@ -27,23 +27,12 @@ const ResumeSection = () => {
               <div className="p-4 rounded-full bg-primary/10">
                 <FileText className="h-12 w-12 text-primary" />
               </div>
-              <div>
-                <h3 className="text-xl font-semibold text-foreground mb-2">
-                  Download Resume
-                </h3>
-                <p className="text-muted-foreground text-sm">
-                  PDF format • Updated January 2026
-                </p>
-              </div>
               <Button size="lg" className="w-full" asChild>
                 <a href="/saiprasath_resume.pdf" download>
                   <Download className="mr-2 h-4 w-4" />
                   Download PDF
                 </a>
               </Button>
-              <p className="text-xs text-muted-foreground">
-                Please upload your resume PDF to /public/resume.pdf
-              </p>
             </CardContent>
           </Card>
         </div>
