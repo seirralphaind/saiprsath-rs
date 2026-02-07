@@ -14,7 +14,7 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
 const API_URL =
-  "https://dh9kacin8a.execute-api.ca-central-1.amazonaws.com/sendMail";
+  "https://dh9kacin8a.execute-api.ca-central-1.amazonaws.com/def/sendMail";
 
 const ContactSection = () => {
   const { toast } = useToast();
