@@ -1,11 +1,20 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Mail, Send } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+
+const API_URL =
+  "https://dh9kacin8a.execute-api.ca-central-1.amazonaws.com/sendMail";
 
 const ContactSection = () => {
   const { toast } = useToast();
@@ -14,17 +23,47 @@ const ContactSection = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    
-    toast({
-      title: "Message sent!",
-      description: "Thank you for reaching out. I'll get back to you soon.",
-    });
-    
-    setIsSubmitting(false);
-    (e.target as HTMLFormElement).reset();
+
+    const form = e.currentTarget;
+
+    const payload = {
+      name: (form.elements.namedItem("name") as HTMLInputElement).value,
+      email: (form.elements.namedItem("email") as HTMLInputElement).value,
+      subject: (form.elements.namedItem("subject") as HTMLInputElement).value,
+      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+    };
+
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to send message");
+      }
+
+      toast({
+        title: "Message sent!",
+        description: "Thank you for reaching out. I’ll get back to you soon.",
+      });
+
+      form.reset();
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Something went wrong",
+        description:
+          error.message || "Unable to send message. Please try again later.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -37,11 +76,11 @@ const ContactSection = () => {
               Get in Touch
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-6">
-              Let's Build Something Great
+              Let&apos;s Build Something Great
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Whether you have a project in mind, want to discuss backend architecture,
-              or just want to connect—I'd love to hear from you.
+              Whether you have a project in mind, want to discuss backend
+              architecture, or just want to connect—I’d love to hear from you.
             </p>
           </div>
 
@@ -53,8 +92,8 @@ const ContactSection = () => {
                   Reach Out Directly
                 </h3>
                 <p className="text-muted-foreground mb-6">
-                  I'm always open to discussing new opportunities, interesting projects,
-                  or collaborations in the backend and cloud engineering space.
+                  I’m always open to discussing new opportunities, interesting
+                  projects, or collaborations in backend and cloud engineering.
                 </p>
               </div>
 
@@ -76,7 +115,7 @@ const ContactSection = () => {
               </Card>
 
               <p className="text-sm text-muted-foreground">
-                Response time: Usually within 24-48 hours
+                Response time: Usually within 24–48 hours
               </p>
             </div>
 
@@ -85,35 +124,62 @@ const ContactSection = () => {
               <CardHeader>
                 <CardTitle>Send a Message</CardTitle>
                 <CardDescription>
-                  Fill out the form below and I'll get back to you as soon as possible.
+                  Fill out the form below and I&apos;ll get back to you as soon as
+                  possible.
                 </CardDescription>
               </CardHeader>
+
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="name">Name</Label>
-                      <Input id="name" placeholder="Your name" required />
+                      <Input
+                        id="name"
+                        name="name"
+                        placeholder="Your name"
+                        required
+                      />
                     </div>
+
                     <div className="space-y-2">
                       <Label htmlFor="email">Email</Label>
-                      <Input id="email" type="email" placeholder="your@email.com" required />
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        placeholder="your@email.com"
+                        required
+                      />
                     </div>
                   </div>
+
                   <div className="space-y-2">
                     <Label htmlFor="subject">Subject</Label>
-                    <Input id="subject" placeholder="What's this about?" required />
+                    <Input
+                      id="subject"
+                      name="subject"
+                      placeholder="What's this about?"
+                      required
+                    />
                   </div>
+
                   <div className="space-y-2">
                     <Label htmlFor="message">Message</Label>
                     <Textarea
                       id="message"
+                      name="message"
                       placeholder="Tell me about your project or opportunity..."
                       rows={5}
                       required
                     />
                   </div>
-                  <Button type="submit" className="w-full" disabled={isSubmitting}>
+
+                  <Button
+                    type="submit"
+                    className="w-full"
+                    disabled={isSubmitting}
+                  >
                     {isSubmitting ? (
                       "Sending..."
                     ) : (
